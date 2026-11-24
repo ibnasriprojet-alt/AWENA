@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AWENA — Vestiaire durable</title>
+  <meta name="description" content="Maquette d'une boutique de vêtements — palette inspirée de palette color.jpg" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- Sprite de vêtements (SVG, sans dépendance externe) -->
+  <svg class="sprite" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+    <symbol id="g-tee" viewBox="0 0 200 240">
+      <path d="M80 62 Q100 84 120 62 L146 72 L176 104 L155 130 L138 112 L138 204 L62 204 L62 112 L45 130 L24 104 L54 72 Z"
+            fill="currentColor" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+      <path d="M80 62 Q100 84 120 62" fill="none" stroke="var(--ink)" stroke-width="3"/>
+      <path d="M62 192 H138" stroke="var(--ink)" stroke-width="2" opacity=".55"/>
+    </symbol>
+
+    <symbol id="g-dress" viewBox="0 0 200 240">
+      <path d="M80 58 Q100 80 120 58 L143 69 L161 96 L145 109 L132 96 L126 128 L158 214 L42 214 L74 128 L68 96 L55 109 L39 96 L57 69 Z"
+            fill="currentColor" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+      <path d="M74 128 H126 M86 150 Q100 158 114 150" fill="none" stroke="var(--ink)" stroke-width="2.5"/>
+      <path d="M100 90 V126" stroke="var(--ink)" stroke-width="2" opacity=".6"/>
+    </symbol>
+
+    <symbol id="g-shirt" viewBox="0 0 200 240">
+      <path d="M80 60 L100 76 L120 60 L146 71 L175 100 L154 125 L138 108 L138 204 L62 204 L62 108 L46 125 L25 100 L54 71 Z"
+            fill="currentColor" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+      <path d="M80 60 L100 76 L90 88 Z M120 60 L100 76 L110 88 Z" fill="var(--shade)" stroke="var(--ink)" stroke-width="2"/>
+      <path d="M100 76 V204" stroke="var(--ink)" stroke-width="2"/>
+      <circle cx="100" cy="106" r="3" fill="var(--ink)"/><circle cx="100" cy="138" r="3" fill="var(--ink)"/>
+      <circle cx="100" cy="170" r="3" fill="var(--ink)"/>
+      <path d="M62 192 H88 M112 192 H138" stroke="var(--ink)" stroke-width="2" opacity=".5"/>
+    </symbol>
+
+    <symbol id="g-knit" viewBox="0 0 200 240">
+      <path d="M78 60 Q100 82 122 60 L150 73 L182 110 L159 134 L146 118 L146 196 L54 196 L54 118 L41 134 L18 110 L50 73 Z"
+            fill="currentColor" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+      <path d="M54 176 H146 M54 188 H146" stroke="var(--ink)" stroke-width="2" opacity=".5"/>
+      <path d="M78 60 Q100 82 122 60" fill="none" stroke="var(--shade)" stroke-width="8" stroke-linecap="round"/>
+      <path d="M54 118 V196 M146 118 V196" stroke="var(--ink)" stroke-width="1.5" opacity=".45"/>
+    </symbol>
+
+    <symbol id="g-coat" viewBox="0 0 200 240">
+      <path d="M78 56 Q100 78 122 56 L149 67 L179 104 L158 129 L142 112 L149 220 L51 220 L58 112 L42 129 L21 104 L51 67 Z"
+            fill="currentColor" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+      <path d="M78 56 L100 88 L84 108 Z M122 56 L100 88 L116 108 Z" fill="var(--shade)" stroke="var(--ink)" stroke-width="2"/>
+      <path d="M100 88 V220 M52 150 H148" stroke="var(--ink)" stroke-width="2.5"/>
+      <circle cx="112" cy="126" r="3.5" fill="var(--ink)"/><circle cx="112" cy="168" r="3.5" fill="var(--ink)"/>
+    </symbol>
+
+    <symbol id="g-pants" viewBox="0 0 200 240">
+      <path d="M56 52 H144 L151 212 H118 L100 118 L82 212 H49 Z"
+            fill="currentColor" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+      <path d="M56 70 H144 M100 70 V118 M56 196 H82 M118 196 H144" stroke="var(--ink)" stroke-width="2" opacity=".6"/>
+      <rect x="92" y="46" width="16" height="10" fill="var(--shade)" stroke="var(--ink)" stroke-width="2"/>
+    </symbol>
+
+    <symbol id="g-bag" viewBox="0 0 200 240">
+      <path d="M58 92 H142 L154 214 H46 Z" fill="currentColor" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>
+      <path d="M76 96 V70 A24 24 0 0 1 124 70 V96" fill="none" stroke="var(--ink)" stroke-width="7" stroke-linecap="round"/>
+      <path d="M58 112 H142" stroke="var(--ink)" stroke-width="2" opacity=".5"/>
+      <circle cx="100" cy="150" r="16" fill="none" stroke="var(--ink)" stroke-width="2" opacity=".6"/>
+    </symbol>
+  </svg>
+
+  <!-- Bandeau livraison -->
+  <div class="announce">Livraison offerte dès 120€ d'achat &nbsp;·&nbsp; Retours gratuits sous 30 jours</div>
+
+  <!-- En-tête -->
+  <header class="site-header">
+    <a class="logo" href="#accueil">AW<span>ENA</span></a>
+    <nav class="main-nav" aria-label="Navigation principale">
+      <a href="#collections">Collections</a>
+      <a href="#essentiels">Essentiels</a>
+      <a href="#histoire">Notre histoire</a>
+    </nav>
+    <div class="header-actions">
+      <button class="icon-btn" aria-label="Rechercher">
+        <svg viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m15.5 15.5 5 5"/></svg>
+      </button>
+      <button class="icon-btn" aria-label="Compte">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg>
+      </button>
+      <button class="icon-btn cart" aria-label="Panier, 2 articles">
+        <svg viewBox="0 0 24 24"><path d="M4 8h16l-1.4 12H5.4Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>
+        <span class="cart-count">2</span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <!-- Héro -->
+    <section class="hero" id="accueil">
+      <div class="hero-copy">
+        <p class="eyebrow">Collection automne — hiver 2026</p>
+        <h1>Le vestiaire<br/><em>qui dure.</em></h1>
+        <p class="hero-text">Des pièces essentielles, coupées dans des matières nobles et teintes dans une palette inspirée de la terre. À porter longtemps, à transmettre.</p>
+        <div class="hero-cta">
+          <a class="btn btn-primary" href="#essentiels">Découvrir la collection</a>
+          <a class="btn btn-link" href="#histoire">Notre démarche <span>→</span></a>
+        </div>
+        <div class="hero-meta">
+          <div><strong>100%</strong><span>fibres naturelles</span></div>
+          <div><strong>48h</strong><span>expédition</span></div>
+          <div><strong>30j</strong><span>retours offerts</span></div>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="hero-arch"></div>
+        <div class="hero-circle"></div>
+        <svg class="hero-garment" viewBox="0 0 200 240" aria-label="Manteau en laine olive">
+          <use href="#g-coat" style="--ink:#0F3340;--shade:#424124" />
+        </svg>
+        <div class="hero-tag"><span>PIÈCE N° 04</span><strong>Manteau Alba</strong><small>190 €</small></div>
+        <div class="hero-leaf" aria-hidden="true">
+          <svg viewBox="0 0 120 180"><path d="M60 175C10 130 10 50 60 5c50 45 50 125 0 170Z"/><path d="M60 10v160M60 70 25 45M60 100l35-30M60 130l-28-24"/></svg>
+        </div>
+      </div>
+    </section>
+
+    <!-- Catégories -->
+    <section class="section categories" id="collections">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">01 — Explorer</p>
+          <h2>Par envie, par saison</h2>
+        </div>
+        <a class="text-link" href="#essentiels">Tout voir <span>→</span></a>
+      </div>
+      <div class="cat-grid">
+        <a class="cat-card cat-1" href="#essentiels"><span>Femme</span><small>42 pièces</small></a>
+        <a class="cat-card cat-2" href="#essentiels"><span>Homme</span><small>36 pièces</small></a>
+        <a class="cat-card cat-3" href="#essentiels"><span>Manteaux</span><small>18 pièces</small></a>
+        <a class="cat-card cat-4" href="#essentiels"><span>Accessoires</span><small>24 pièces</small></a>
+      </div>
+    </section>
+
+    <!-- Produits -->
+    <section class="section products" id="essentiels">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">02 — Sélection</p>
+          <h2>Les essentiels du moment</h2>
+        </div>
+        <a class="text-link" href="#essentiels">Voir les 24 pièces <span>→</span></a>
+      </div>
+
+      <div class="product-grid">
+        <article class="product-card">
+          <div class="product-art art-cream" style="--ink:#0F3340;--shade:#7D795B">
+            <svg viewBox="0 0 200 240" aria-hidden="true"><use href="#g-knit" style="color:#5A5C3B"/></svg>
+            <span class="badge">Nouveau</span>
+            <button class="fav" aria-label="Ajouter aux favoris">♡</button>
+          </div>
+          <div class="product-info">
+            <p class="product-type">Maille</p>
+            <h3>Pull Soren</h3>
+            <div class="product-bottom">
+              <div class="swatches"><i style="background:#5A5C3B"></i><i style="background:#DDC6AA"></i><i style="background:#0F3340"></i></div>
+              <strong>129 €</strong>
+            </div>
+          </div>
+        </article>
+
+        <article class="product-card">
+          <div class="product-art art-terra" style="--ink:#571B0E;--shade:#8A2F1D">
+            <svg viewBox="0 0 200 240" aria-hidden="true"><use href="#g-dress" style="color:#B54E30"/></svg>
+            <span class="badge badge-light">Best-seller</span>
+            <button class="fav" aria-label="Ajouter aux favoris">♡</button>
+          </div>
+          <div class="product-info">
+            <p class="product-type">Robe</p>
+            <h3>Robe Lune</h3>
+            <div class="product-bottom">
+              <div class="swatches"><i style="background:#B54E30"></i><i style="background:#8A2F1D"></i><i style="background:#424124"></i></div>
+              <strong>159 €</strong>
+            </div>
+          </div>
+        </article>
+
+        <article class="product-card">
+          <div class="product-art art-teal" style="--ink:#DDC6AA;--shade:#0F3340">
+            <svg viewBox="0 0 200 240" aria-hidden="true"><use href="#g-shirt" style="color:#0F3340"/></svg>
+            <button class="fav" aria-label="Ajouter aux favoris">♡</button>
+          </div>
+          <div class="product-info">
+            <p class="product-type">Chemise</p>
+            <h3>Chemise Iris</h3>
+            <div class="product-bottom">
+              <div class="swatches"><i style="background:#0F3340"></i><i style="background:#DDC6AA"></i><i style="background:#B69475"></i></div>
+              <strong>115 €</strong>
+            </div>
+          </div>
+        </article>
+
+        <article class="product-card">
+          <div class="product-art art-sand" style="--ink:#424124;--shade:#B69475">
+            <svg viewBox="0 0 200 240" aria-hidden="true"><use href="#g-tee" style="color:#DDC6AA"/></svg>
+            <span class="badge">Nouveau</span>
+            <button class="fav" aria-label="Ajouter aux favoris">♡</button>
+          </div>
+          <div class="product-info">
+            <p class="product-type">T-shirt</p>
+            <h3>Tee Basic Terra</h3>
+            <div class="product-bottom">
+              <div class="swatches"><i style="background:#DDC6AA"></i><i style="background:#5A5C3B"></i><i style="background:#571B0E"></i></div>
+              <strong>49 €</strong>
+            </div>
+          </div>
+        </article>
+
+        <article class="product-card">
+          <div class="product-art art-olive" style="--ink:#0F3340;--shade:#424124">
+            <svg viewBox="0 0 200 240" aria-hidden="true"><use href="#g-pants" style="color:#424124"/></svg>
+            <button class="fav" aria-label="Ajouter aux favoris">♡</button>
+          </div>
+          <div class="product-info">
+            <p class="product-type">Pantalon</p>
+            <h3>Pantalon Noma</h3>
+            <div class="product-bottom">
+              <div class="swatches"><i style="background:#424124"></i><i style="background:#606D18"></i><i style="background:#571B0E"></i></div>
+              <strong>139 €</strong>
+            </div>
+          </div>
+        </article>
+
+        <article class="product-card">
+          <div class="product-art art-khaki" style="--ink:#424124;--shade:#5A5C3B">
+            <svg viewBox="0 0 200 240" aria-hidden="true"><use href="#g-bag" style="color:#B69475"/></svg>
+            <span class="badge badge-light">Édition limitée</span>
+            <button class="fav" aria-label="Ajouter aux favoris">♡</button>
+          </div>
+          <div class="product-info">
+            <p class="product-type">Accessoire</p>
+            <h3>Sac Awena</h3>
+            <div class="product-bottom">
+              <div class="swatches"><i style="background:#B69475"></i><i style="background:#571B0E"></i><i style="background:#7D795B"></i></div>
+              <strong>89 €</strong>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Bannière éditoriale -->
+    <section class="banner" id="histoire">
+      <div class="banner-copy">
+        <p class="eyebrow eyebrow-light">03 — Notre engagement</p>
+        <h2>Moins de pièces.<br/><em>Plus de sens.</em></h2>
+        <p>Chaque vêtement est pensé pour traverser les saisons : des coupes intemporelles, des teintures naturelles et une production en petits ateliers européens.</p>
+        <a class="btn btn-cream" href="#essentiels">Découvrir notre histoire</a>
+      </div>
+      <div class="banner-art" aria-hidden="true">
+        <div class="banner-disc"></div>
+        <svg viewBox="0 0 200 240"><use href="#g-coat" style="color:#DDC6AA;--ink:#571B0E;--shade:#B54E30"/></svg>
+      </div>
+    </section>
+
+    <!-- Newsletter -->
+    <section class="newsletter">
+      <div>
+        <p class="eyebrow">04 — Le journal</p>
+        <h2>Rejoignez le cercle</h2>
+        <p>Nouveautés, conseils d'entretien et invitations atelier. Une lettre par mois, pas plus.</p>
+      </div>
+      <form class="news-form" onsubmit="return false">
+        <label class="sr-only" for="email">Votre adresse e-mail</label>
+        <input id="email" type="email" placeholder="votre@email.fr" />
+        <button class="btn btn-primary" type="submit">S'inscrire</button>
+      </form>
+    </section>
+  </main>
+
+  <!-- Pied de page -->
+  <footer class="site-footer">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a class="logo" href="#accueil">AW<span>ENA</span></a>
+        <p>Un vestiaire conscient, ancré dans les matières et les saisons.</p>
+      </div>
+      <div class="footer-col"><h4>Boutique</h4><a href="#collections">Femme</a><a href="#collections">Homme</a><a href="#essentiels">Manteaux</a><a href="#essentiels">Accessoires</a></div>
+      <div class="footer-col"><h4>Aide</h4><a href="#histoire">Livraison & retours</a><a href="#histoire">Guide des tailles</a><a href="#histoire">Contact</a><a href="#histoire">FAQ</a></div>
+      <div class="footer-col"><h4>Maison</h4><a href="#histoire">Notre histoire</a><a href="#histoire">Savoir-faire</a><a href="#histoire">Journal</a><a href="#histoire">Engagements</a></div>
+    </div>
+
+    <div class="palette-strip">
+      <span>NOTRE PALETTE</span>
+      <div class="palette-swatches">
+        <i style="background:#0F3340" title="#0F3340"><small>#0F3340</small></i>
+        <i style="background:#424124" title="#424124"><small>#424124</small></i>
+        <i style="background:#5A5C3B" title="#5A5C3B"><small>#5A5C3B</small></i>
+        <i style="background:#606D18" title="#606D18"><small>#606D18</small></i>
+        <i style="background:#B54E30" title="#B54E30"><small>#B54E30</small></i>
+        <i style="background:#8A2F1D" title="#8A2F1D"><small>#8A2F1D</small></i>
+        <i style="background:#DDC6AA" title="#DDC6AA"><small>#DDC6AA</small></i>
+        <i style="background:#B69475" title="#B69475"><small>#B69475</small></i>
+        <i style="background:#7D795B" title="#7D795B"><small>#7D795B</small></i>
+        <i style="background:#571B0E" title="#571B0E"><small>#571B0E</small></i>
+      </div>
+    </div>
+
+    <div class="footer-bottom"><span>© 2026 Awena — Maquette de démonstration</span><span>France · EUR €</span></div>
+  </footer>
+</body>
+</html>

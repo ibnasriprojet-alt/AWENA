@@ -1,0 +1,243 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* ---------------------------------------------------------------
+   Awena — design system
+   Palette extraite de "palette color.jpg", déclinée en tokens
+   plus clairs pour un rendu éditorial contemporain.
+   --------------------------------------------------------------- */
+:root {
+  --radius: 0.25rem;
+
+  --paper: #f3eadc;
+  --background: var(--paper);
+  --foreground: #0f3340;
+
+  --card: #f8f2e8;
+  --card-foreground: #0f3340;
+  --popover: #f8f2e8;
+  --popover-foreground: #0f3340;
+
+  --primary: #b54e30;
+  --primary-foreground: #f8f2e8;
+  --secondary: #b69475;
+  --secondary-foreground: #0f3340;
+  --muted: #e3d4c0;
+  --muted-foreground: #5a5c3b;
+  --accent: #5a5c3b;
+  --accent-foreground: #f8f2e8;
+  --destructive: #8a2f1d;
+
+  --border: #cbb79c;
+  --input: #cbb79c;
+  --ring: #b54e30;
+
+  --olive: #5a5c3b;
+  --olive-deep: #424124;
+  --lime: #606d18;
+  --terra: #b54e30;
+  --rust: #8a2f1d;
+  --sand: #b69475;
+  --khaki: #7d795b;
+  --brown: #571b0e;
+  --cream: #ddc6aa;
+  --teal: #0f3340;
+
+  --font-sans: "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-serif: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-paper: var(--paper);
+  --color-teal: var(--teal);
+  --color-terra: var(--terra);
+  --color-rust: var(--rust);
+  --color-sand: var(--sand);
+  --color-cream: var(--cream);
+  --color-olive: var(--olive);
+
+  --font-sans: var(--font-sans);
+  --font-serif: var(--font-serif);
+
+  --radius-sm: calc(var(--radius) - 2px);
+  --radius-md: calc(var(--radius) + 2px);
+  --radius-lg: calc(var(--radius) + 8px);
+  --radius-xl: calc(var(--radius) + 16px);
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5.5rem;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection {
+    background: var(--terra);
+    color: var(--paper);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--terra);
+    outline-offset: 3px;
+  }
+
+  button,
+  input {
+    font: inherit;
+  }
+
+  button {
+    cursor: pointer;
+  }
+}
+
+@utility font-display {
+  font-family: var(--font-serif);
+}
+
+@utility tracking-editorial {
+  letter-spacing: 0.24em;
+}
+
+@utility label {
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+/* Reveal au scroll ------------------------------------------------ */
+.reveal {
+  opacity: 0;
+  transform: translateY(26px);
+  transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Grain très léger, donne de la matière au papier ----------------- */
+.grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.16;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.32'/%3E%3C/svg%3E");
+}
+
+/* Hero panoramique — réinterprétation des tokens du composant ----- */
+.panoramic-hero .bg-neutral-50 {
+  background-color: var(--paper);
+}
+
+.panoramic-hero .text-neutral-900 {
+  color: var(--teal);
+}
+
+.panoramic-hero .bg-neutral-200 {
+  background-color: var(--cream);
+}
+
+.panoramic-hero .text-neutral-500 {
+  color: var(--olive);
+}
+
+.panoramic-hero .bg-white {
+  background-color: #f8f2e8;
+}
+
+.panoramic-hero .bg-black\/10 {
+  background-color: color-mix(in oklab, var(--brown) 8%, transparent);
+}
+
+.panoramic-hero .ring-black\/5 {
+  --tw-ring-color: color-mix(in oklab, var(--khaki) 30%, transparent);
+}
+
+.panoramic-hero .shadow-black\/10 {
+  --tw-shadow-color: color-mix(in oklab, var(--brown) 18%, transparent);
+}
+
+.hero-frame {
+  border: 1px solid color-mix(in oklab, var(--khaki) 45%, transparent);
+  border-radius: 2px;
+}
+
+.hero-frame::after {
+  content: "";
+  position: absolute;
+  inset: 0.4rem;
+  border: 1px solid color-mix(in oklab, var(--cream) 55%, transparent);
+  pointer-events: none;
+}
+
+/* Divers --------------------------------------------------------- */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  scrollbar-width: none;
+}
+
+.link-underline {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  background-size: 0 1px;
+  transition: background-size 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.link-underline:hover {
+  background-size: 100% 1px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+}
