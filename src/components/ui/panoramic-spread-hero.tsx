@@ -184,9 +184,20 @@ export default function PanoramicSpreadHero() {
         className="sticky top-0 h-[100svh] w-full overflow-hidden flex items-center justify-center"
         style={{ perspective: "1200px" }}
       >
+        {/* Fond du hero — image fixe derrière la scène, sans toucher aux cartes */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 bg-cover bg-center opacity-60"
+          style={{ backgroundImage: "url('/fond-hero.jpg')" }}
+        />
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#F3EADC]/70 via-[#F3EADC]/25 to-[#F3EADC]/70"
+        />
+
         {/* Halo lumineux derrière les cartes */}
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-          <div className="w-[70vw] h-[70vw] max-w-[900px] max-h-[900px] rounded-full bg-[#B69475]/20 blur-[130px]" />
+          <div className="w-[70vw] h-[70vw] max-w-[900px] max-h-[900px] rounded-full bg-[#B69475]/10 blur-[130px]" />
         </div>
 
         <div className="pointer-events-none absolute left-[5vw] top-1/2 hidden -translate-y-1/2 md:flex md:flex-col md:gap-3 lg:flex">
