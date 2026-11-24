@@ -20,10 +20,9 @@ const DEFAULT_ITEMS: NavItem[] = [
 const EXPAND_SCROLL_THRESHOLD = 80
 
 const containerVariants: Variants = {
-  expanded: {
+  visible: {
     y: 0,
     opacity: 1,
-    width: "auto",
     transition: {
       y: { type: "spring", damping: 18, stiffness: 250 },
       opacity: { duration: 0.3 },
@@ -34,43 +33,28 @@ const containerVariants: Variants = {
       delayChildren: 0.2,
     },
   },
-  collapsed: {
-    y: 0,
-    opacity: 1,
-    width: "3rem",
+  hidden: {
+    y: -120,
+    opacity: 0,
     transition: {
       type: "spring",
-      damping: 20,
-      stiffness: 300,
+      damping: 22,
+      stiffness: 320,
       when: "afterChildren",
-      staggerChildren: 0.05,
+      staggerChildren: 0.04,
       staggerDirection: -1,
     },
   },
 }
 
 const logoVariants: Variants = {
-  expanded: { opacity: 1, x: 0, rotate: 0, transition: { type: "spring", damping: 15 } },
-  collapsed: { opacity: 0, x: -25, rotate: -180, transition: { duration: 0.3 } },
+  visible: { opacity: 1, x: 0, rotate: 0, transition: { type: "spring", damping: 15 } },
+  hidden: { opacity: 0, x: -20, rotate: -90, transition: { duration: 0.2 } },
 }
 
 const itemVariants: Variants = {
-  expanded: { opacity: 1, x: 0, scale: 1, transition: { type: "spring", damping: 15 } },
-  collapsed: { opacity: 0, x: -20, scale: 0.95, transition: { duration: 0.2 } },
-}
-
-const collapsedIconVariants: Variants = {
-  expanded: { opacity: 0, scale: 0.8, transition: { duration: 0.2 } },
-  collapsed: {
-    opacity: 1,
-    scale: 1,
-    transition: {
-      type: "spring",
-      damping: 15,
-      stiffness: 300,
-      delay: 0.15,
-    },
-  },
+  visible: { opacity: 1, x: 0, scale: 1, transition: { type: "spring", damping: 15 } },
+  hidden: { opacity: 0, x: -14, scale: 0.95, transition: { duration: 0.2 } },
 }
 
 type AnimatedNavFramerProps = {
@@ -80,6 +64,7 @@ type AnimatedNavFramerProps = {
   onOpenSearch?: () => void
   menuOpen?: boolean
   onToggleMenu?: () => void
+  onHide?: () => void
   className?: string
 }
 
@@ -90,37 +75,37 @@ export function AnimatedNavFramer({
   onOpenSearch,
   menuOpen = false,
   onToggleMenu,
+  onHide,
   className,
 }: AnimatedNavFramerProps) {
-  const [isExpanded, setExpanded] = React.useState(true)
+  const [visible, setVisible] = React.useState(true)
+  const visibleRef = React.useRef(true)
+
+  React.useEffect(() => {
+    visibleRef.current = visible
+  }, [visible])
 
   const { scrollY } = useScroll()
   const lastScrollY = React.useRef(0)
-  const scrollPositionOnCollapse = React.useRef(0)
+  const scrollPositionOnHide = React.useRef(0)
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     const previous = lastScrollY.current
 
-    if (isExpanded && latest > previous && latest > 150) {
-      setExpanded(false)
-      scrollPositionOnCollapse.current = latest
+    if (visibleRef.current && latest > previous && latest > 150) {
+      setVisible(false)
+      scrollPositionOnHide.current = latest
+      onHide?.()
     } else if (
-      !isExpanded &&
+      !visibleRef.current &&
       latest < previous &&
-      scrollPositionOnCollapse.current - latest > EXPAND_SCROLL_THRESHOLD
+      scrollPositionOnHide.current - latest > EXPAND_SCROLL_THRESHOLD
     ) {
-      setExpanded(true)
+      setVisible(true)
     }
 
     lastScrollY.current = latest
   })
-
-  const handleNavClick = (event: React.MouseEvent<HTMLElement>) => {
-    if (!isExpanded) {
-      event.preventDefault()
-      setExpanded(true)
-    }
-  }
 
   const stop = (event: React.MouseEvent) => event.stopPropagation()
 
@@ -136,22 +121,14 @@ export function AnimatedNavFramer({
     >
       <motion.nav
         aria-label="Navigation principale"
+        aria-hidden={!visible}
+        inert={!visible}
         initial={{ y: -80, opacity: 0 }}
-        animate={isExpanded ? "expanded" : "collapsed"}
+        animate={visible ? "visible" : "hidden"}
         variants={containerVariants}
-        whileHover={!isExpanded ? { scale: 1.1 } : {}}
-        whileTap={!isExpanded ? { scale: 0.95 } : {}}
-        onClick={handleNavClick}
-        tabIndex={isExpanded ? undefined : 0}
-        onKeyDown={(event) => {
-          if (!isExpanded && (event.key === "Enter" || event.key === " ")) {
-            event.preventDefault()
-            setExpanded(true)
-          }
-        }}
         className={cn(
-          "relative flex h-12 shrink-0 cursor-pointer items-center overflow-hidden rounded-full border border-teal/15 bg-paper/85 shadow-[0_18px_50px_-28px_rgba(15,51,64,0.7)] backdrop-blur-xl",
-          !isExpanded && "justify-center",
+          "relative flex h-12 shrink-0 items-center overflow-hidden rounded-full border border-teal/15 bg-paper/85 shadow-[0_18px_50px_-28px_rgba(15,51,64,0.7)] backdrop-blur-xl",
+          !visible && "pointer-events-none",
         )}
       >
         <motion.a
@@ -159,10 +136,7 @@ export function AnimatedNavFramer({
           variants={logoVariants}
           onClick={stop}
           aria-label="Awena — accueil"
-          className={cn(
-            "flex shrink-0 items-center gap-2 pl-3 pr-1 sm:pl-4",
-            !isExpanded && "pointer-events-none",
-          )}
+          className="flex shrink-0 items-center gap-2 pl-3 pr-1 sm:pl-4"
         >
           <span className="grid size-7 place-items-center border border-terra/40 text-terra">
             <span className="font-display text-xs leading-none">A</span>
@@ -172,12 +146,7 @@ export function AnimatedNavFramer({
           </span>
         </motion.a>
 
-        <div
-          className={cn(
-            "hidden items-center gap-0.5 pr-1 sm:gap-2 md:flex",
-            !isExpanded && "pointer-events-none",
-          )}
-        >
+        <div className="hidden items-center gap-0.5 pr-1 sm:gap-2 md:flex">
           {items.map((item) => (
             <motion.a
               key={item.name}
@@ -191,10 +160,7 @@ export function AnimatedNavFramer({
           ))}
         </div>
 
-        <motion.div
-          variants={itemVariants}
-          className={cn("flex items-center gap-0.5 pr-1.5 sm:gap-1", !isExpanded && "pointer-events-none")}
-        >
+        <motion.div variants={itemVariants} className="flex items-center gap-0.5 pr-1.5 sm:gap-1">
           <button
             type="button"
             aria-label="Rechercher"
@@ -243,12 +209,6 @@ export function AnimatedNavFramer({
             {menuOpen ? <X className="size-[18px]" strokeWidth={1.5} /> : <Menu className="size-[18px]" strokeWidth={1.5} />}
           </button>
         </motion.div>
-
-        <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-          <motion.div variants={collapsedIconVariants} animate={isExpanded ? "expanded" : "collapsed"}>
-            <Menu className="size-5 text-terra" />
-          </motion.div>
-        </div>
       </motion.nav>
     </div>
   )

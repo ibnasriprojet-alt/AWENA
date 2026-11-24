@@ -36,6 +36,7 @@ export default function SiteHeader({ cartCount, onOpenCart, onOpenSearch }: Site
         onOpenSearch={onOpenSearch}
         menuOpen={menuOpen}
         onToggleMenu={() => setMenuOpen((open) => !open)}
+        onHide={() => setMenuOpen(false)}
       />
 
       <div
