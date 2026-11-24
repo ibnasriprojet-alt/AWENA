@@ -1,3 +1,11 @@
+export type ProductVariant = {
+  id: string
+  label: string
+  image: string
+  alt: string
+  swatch: string
+}
+
 export type Product = {
   id: string
   type: "Robe" | "Ensemble" | "Tunique"
@@ -8,6 +16,7 @@ export type Product = {
   badge?: string
   tone: string
   colors: string[]
+  variants?: ProductVariant[]
 }
 
 export const PRODUCTS: Product[] = [
@@ -63,6 +72,22 @@ export const PRODUCTS: Product[] = [
     badge: "Nouveau",
     tone: "#B69475",
     colors: ["#DDC6AA", "#B69475"],
+    variants: [
+      {
+        id: "blanc-or",
+        label: "Blanc / Or",
+        image: "/produits/kanzu-or-portrait.jpg",
+        alt: "Portrait de la tunique blanche brodée d'or",
+        swatch: "#DDC6AA",
+      },
+      {
+        id: "rouge",
+        label: "Rouge",
+        image: "/produits/kanzu-rouge.jpg",
+        alt: "Portrait de la tunique rouge",
+        swatch: "#8A2F1D",
+      },
+    ],
   },
   {
     id: "salouva-azur",

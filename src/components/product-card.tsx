@@ -1,3 +1,4 @@
+import { useState } from "react"
 import { Heart, Plus } from "lucide-react"
 import { formatPrice, type Product } from "@/lib/catalog"
 
@@ -9,12 +10,18 @@ type ProductCardProps = {
 }
 
 export default function ProductCard({ product, onAdd, favorite, onToggleFavorite }: ProductCardProps) {
+  const [variantIndex, setVariantIndex] = useState(0)
+  const variants = product.variants
+  const activeVariant = variants?.[variantIndex]
+  const image = activeVariant?.image ?? product.image
+  const alt = activeVariant?.alt ?? product.alt
+
   return (
     <article className="group flex flex-col">
       <div className="relative aspect-[3/4] overflow-hidden bg-[#e8dac7]">
         <img
-          src={product.image}
-          alt={product.alt}
+          src={image}
+          alt={alt}
           loading="lazy"
           className="size-full object-cover object-top transition-transform duration-[1.1s] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.06]"
         />
@@ -37,7 +44,9 @@ export default function ProductCard({ product, onAdd, favorite, onToggleFavorite
 
         <button
           type="button"
-          onClick={() => onAdd(product)}
+          onClick={() =>
+            onAdd(activeVariant ? { ...product, image: activeVariant.image, alt: activeVariant.alt } : product)
+          }
           className="absolute inset-x-3 bottom-3 flex h-11 translate-y-2 items-center justify-center gap-2 bg-teal text-[10px] font-bold uppercase tracking-[0.18em] text-paper opacity-0 transition-all duration-300 hover:bg-terra group-hover:translate-y-0 group-hover:opacity-100 focus-visible:translate-y-0 focus-visible:opacity-100 max-lg:translate-y-0 max-lg:opacity-100"
         >
           <Plus className="size-3.5" strokeWidth={1.8} />
@@ -53,6 +62,27 @@ export default function ProductCard({ product, onAdd, favorite, onToggleFavorite
           </div>
           <p className="whitespace-nowrap font-display text-base">{formatPrice(product.price)}</p>
         </div>
+
+        {variants && variants.length > 1 && (
+          <div className="mt-4 flex items-center gap-2" aria-label="Coloris disponibles">
+            {variants.map((variant, index) => (
+              <button
+                key={variant.id}
+                type="button"
+                aria-label={variant.label}
+                aria-pressed={variantIndex === index}
+                onClick={() => setVariantIndex(index)}
+                className={`size-4 rounded-full border transition-transform hover:scale-125 ${
+                  variantIndex === index
+                    ? "border-teal ring-1 ring-teal ring-offset-2 ring-offset-paper"
+                    : "border-border"
+                }`}
+                style={{ backgroundColor: variant.swatch }}
+              />
+            ))}
+            <span className="ml-1 text-[10px] text-olive">{activeVariant?.label}</span>
+          </div>
+        )}
       </div>
     </article>
   )
