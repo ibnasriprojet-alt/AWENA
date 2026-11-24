@@ -94,7 +94,7 @@ export const PRODUCTS: Product[] = [
     type: "Robe",
     name: "Salouva Azur",
     price: 179,
-    image: "/produits/salouva-azur.jpg",
+    image: "/produits/salouva.jpg",
     alt: "Salouva bleu, or et crème",
     tone: "#0F3340",
     colors: ["#0F3340", "#B69475", "#DDC6AA"],
