@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import { motion, useMotionValueEvent, useScroll, type Variants } from "motion/react"
-import { Menu, Navigation } from "lucide-react"
+import { Menu, Search, ShoppingBag, UserRound, X } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 
@@ -75,10 +75,23 @@ const collapsedIconVariants: Variants = {
 
 type AnimatedNavFramerProps = {
   items?: NavItem[]
+  cartCount?: number
+  onOpenCart?: () => void
+  onOpenSearch?: () => void
+  menuOpen?: boolean
+  onToggleMenu?: () => void
   className?: string
 }
 
-export function AnimatedNavFramer({ items = DEFAULT_ITEMS, className }: AnimatedNavFramerProps) {
+export function AnimatedNavFramer({
+  items = DEFAULT_ITEMS,
+  cartCount = 0,
+  onOpenCart,
+  onOpenSearch,
+  menuOpen = false,
+  onToggleMenu,
+  className,
+}: AnimatedNavFramerProps) {
   const [isExpanded, setExpanded] = React.useState(true)
 
   const { scrollY } = useScroll()
@@ -109,57 +122,135 @@ export function AnimatedNavFramer({ items = DEFAULT_ITEMS, className }: Animated
     }
   }
 
+  const stop = (event: React.MouseEvent) => event.stopPropagation()
+
+  const iconButton =
+    "relative grid size-9 shrink-0 place-items-center rounded-full text-teal transition-colors hover:bg-cream/70 hover:text-terra"
+
   return (
-    <motion.nav
-      aria-label="Navigation principale"
-      initial={{ y: -80, opacity: 0 }}
-      animate={isExpanded ? "expanded" : "collapsed"}
-      variants={containerVariants}
-      whileHover={!isExpanded ? { scale: 1.1 } : {}}
-      whileTap={!isExpanded ? { scale: 0.95 } : {}}
-      onClick={handleNavClick}
-      tabIndex={isExpanded ? undefined : 0}
-      onKeyDown={(event) => {
-        if (!isExpanded && (event.key === "Enter" || event.key === " ")) {
-          event.preventDefault()
-          setExpanded(true)
-        }
-      }}
+    <div
       className={cn(
-        "relative flex h-12 shrink-0 cursor-pointer items-center overflow-hidden rounded-full border bg-background/80 shadow-lg backdrop-blur-sm",
-        !isExpanded && "justify-center",
+        "fixed left-1/2 top-4 z-50 max-w-[calc(100vw-2rem)] -translate-x-1/2 sm:top-6",
         className,
       )}
     >
-      <motion.div
-        variants={logoVariants}
-        className="flex shrink-0 items-center pl-4 pr-2 font-semibold text-terra"
+      <motion.nav
+        aria-label="Navigation principale"
+        initial={{ y: -80, opacity: 0 }}
+        animate={isExpanded ? "expanded" : "collapsed"}
+        variants={containerVariants}
+        whileHover={!isExpanded ? { scale: 1.1 } : {}}
+        whileTap={!isExpanded ? { scale: 0.95 } : {}}
+        onClick={handleNavClick}
+        tabIndex={isExpanded ? undefined : 0}
+        onKeyDown={(event) => {
+          if (!isExpanded && (event.key === "Enter" || event.key === " ")) {
+            event.preventDefault()
+            setExpanded(true)
+          }
+        }}
+        className={cn(
+          "relative flex h-12 shrink-0 cursor-pointer items-center overflow-hidden rounded-full border border-teal/15 bg-paper/85 shadow-[0_18px_50px_-28px_rgba(15,51,64,0.7)] backdrop-blur-xl",
+          !isExpanded && "justify-center",
+        )}
       >
-        <Navigation className="size-5" />
-      </motion.div>
+        <motion.a
+          href="#accueil"
+          variants={logoVariants}
+          onClick={stop}
+          aria-label="Awena — accueil"
+          className={cn(
+            "flex shrink-0 items-center gap-2 pl-3 pr-1 sm:pl-4",
+            !isExpanded && "pointer-events-none",
+          )}
+        >
+          <span className="grid size-7 place-items-center border border-terra/40 text-terra">
+            <span className="font-display text-xs leading-none">A</span>
+          </span>
+          <span className="whitespace-nowrap font-display text-sm font-semibold tracking-[0.2em]">
+            AW<span className="text-terra">ENA</span>
+          </span>
+        </motion.a>
 
-      <motion.div
-        className={cn("flex items-center gap-1 pr-4 sm:gap-4", !isExpanded && "pointer-events-none")}
-      >
-        {items.map((item) => (
-          <motion.a
-            key={item.name}
-            href={item.href}
-            variants={itemVariants}
-            onClick={(event) => event.stopPropagation()}
-            className="label whitespace-nowrap px-2 py-1 text-teal/75 transition-colors hover:text-terra"
+        <div
+          className={cn(
+            "hidden items-center gap-0.5 pr-1 sm:gap-2 md:flex",
+            !isExpanded && "pointer-events-none",
+          )}
+        >
+          {items.map((item) => (
+            <motion.a
+              key={item.name}
+              href={item.href}
+              variants={itemVariants}
+              onClick={stop}
+              className="label whitespace-nowrap px-2 py-1 text-teal/75 transition-colors hover:text-terra"
+            >
+              {item.name}
+            </motion.a>
+          ))}
+        </div>
+
+        <motion.div
+          variants={itemVariants}
+          className={cn("flex items-center gap-0.5 pr-1.5 sm:gap-1", !isExpanded && "pointer-events-none")}
+        >
+          <button
+            type="button"
+            aria-label="Rechercher"
+            onClick={(event) => {
+              stop(event)
+              onOpenSearch?.()
+            }}
+            className={iconButton}
           >
-            {item.name}
-          </motion.a>
-        ))}
-      </motion.div>
-
-      <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-        <motion.div variants={collapsedIconVariants} animate={isExpanded ? "expanded" : "collapsed"}>
-          <Menu className="size-5 text-terra" />
+            <Search className="size-[18px]" strokeWidth={1.5} />
+          </button>
+          <button
+            type="button"
+            aria-label="Mon compte"
+            onClick={stop}
+            className={cn(iconButton, "hidden sm:grid")}
+          >
+            <UserRound className="size-[18px]" strokeWidth={1.5} />
+          </button>
+          <button
+            type="button"
+            aria-label={`Panier, ${cartCount} article${cartCount > 1 ? "s" : ""}`}
+            onClick={(event) => {
+              stop(event)
+              onOpenCart?.()
+            }}
+            className={iconButton}
+          >
+            <ShoppingBag className="size-[18px]" strokeWidth={1.5} />
+            {cartCount > 0 && (
+              <span className="absolute right-0 top-0 grid size-[16px] place-items-center rounded-full bg-terra text-[9px] font-bold text-paper">
+                {cartCount}
+              </span>
+            )}
+          </button>
+          <button
+            type="button"
+            aria-label={menuOpen ? "Fermer le menu" : "Ouvrir le menu"}
+            aria-expanded={menuOpen}
+            onClick={(event) => {
+              stop(event)
+              onToggleMenu?.()
+            }}
+            className={iconButton}
+          >
+            {menuOpen ? <X className="size-[18px]" strokeWidth={1.5} /> : <Menu className="size-[18px]" strokeWidth={1.5} />}
+          </button>
         </motion.div>
-      </div>
-    </motion.nav>
+
+        <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
+          <motion.div variants={collapsedIconVariants} animate={isExpanded ? "expanded" : "collapsed"}>
+            <Menu className="size-5 text-terra" />
+          </motion.div>
+        </div>
+      </motion.nav>
+    </div>
   )
 }
 

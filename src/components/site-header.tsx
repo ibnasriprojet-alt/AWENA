@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { ArrowUpRight, Menu, Search, ShoppingBag, UserRound, X } from "lucide-react"
+import { ArrowUpRight } from "lucide-react"
 
 import AnimatedNavFramer from "@/components/ui/navigation-menu"
 
@@ -17,14 +17,6 @@ type SiteHeaderProps = {
 
 export default function SiteHeader({ cartCount, onOpenCart, onOpenSearch }: SiteHeaderProps) {
   const [menuOpen, setMenuOpen] = useState(false)
-  const [scrolled, setScrolled] = useState(false)
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24)
-    onScroll()
-    window.addEventListener("scroll", onScroll, { passive: true })
-    return () => window.removeEventListener("scroll", onScroll)
-  }, [])
 
   useEffect(() => {
     if (!menuOpen) return
@@ -37,97 +29,38 @@ export default function SiteHeader({ cartCount, onOpenCart, onOpenSearch }: Site
 
   return (
     <>
-      <header
-        className={`sticky top-0 z-40 border-b transition-all duration-500 ${
-          scrolled
-            ? "border-border/80 bg-paper/90 shadow-[0_10px_40px_-30px_rgba(15,51,64,0.6)] backdrop-blur-xl"
-            : "border-transparent bg-paper/70 backdrop-blur-md"
+      <AnimatedNavFramer
+        items={LINKS.map((link) => ({ name: link.label, href: link.href }))}
+        cartCount={cartCount}
+        onOpenCart={onOpenCart}
+        onOpenSearch={onOpenSearch}
+        menuOpen={menuOpen}
+        onToggleMenu={() => setMenuOpen((open) => !open)}
+      />
+
+      <div
+        inert={!menuOpen}
+        className={`fixed left-1/2 top-[76px] z-40 w-[calc(100%-2rem)] max-w-sm -translate-x-1/2 rounded-2xl border border-teal/15 bg-paper/95 p-2 shadow-[0_24px_60px_-30px_rgba(15,51,64,0.55)] backdrop-blur-xl transition-all duration-300 sm:top-[88px] ${
+          menuOpen ? "visible translate-y-0 opacity-100" : "invisible -translate-y-2 opacity-0"
         }`}
       >
-        <div className="mx-auto flex h-[74px] max-w-[1600px] items-center justify-between gap-6 px-5 sm:px-8">
-          <a href="#accueil" className="group flex items-center gap-3" aria-label="Awena — accueil">
-            <span className="grid size-8 place-items-center border border-teal/30 text-terra transition-colors group-hover:border-terra">
-              <span className="font-display text-sm leading-none">A</span>
-            </span>
-            <span className="flex flex-col leading-none">
-              <span className="font-display text-base font-semibold tracking-[0.22em] sm:text-lg">
-                AW<span className="text-terra">ENA</span>
+        <nav aria-label="Navigation du menu" className="flex flex-col">
+          {LINKS.map((link, index) => (
+            <a
+              key={link.label}
+              href={link.href}
+              onClick={() => setMenuOpen(false)}
+              className="flex items-center justify-between rounded-xl px-3 py-3 font-display text-xl transition-colors hover:bg-cream/70"
+            >
+              <span className="flex items-center gap-3">
+                <span className="label text-terra">0{index + 1}</span>
+                {link.label}
               </span>
-              <span className="mt-1 hidden text-[8px] tracking-[0.3em] text-olive sm:block">VESTIAIRE CONSCIENT</span>
-            </span>
-          </a>
-
-          <div className="hidden lg:block">
-            <AnimatedNavFramer
-              items={LINKS.map((link) => ({ name: link.label, href: link.href }))}
-            />
-          </div>
-
-          <div className="flex items-center gap-0.5 sm:gap-1">
-            <button
-              type="button"
-              aria-label="Rechercher"
-              onClick={onOpenSearch}
-              className="grid size-10 place-items-center rounded-full text-teal transition-colors hover:bg-cream/60 hover:text-terra"
-            >
-              <Search className="size-[18px]" strokeWidth={1.5} />
-            </button>
-            <button
-              type="button"
-              aria-label="Mon compte"
-              className="hidden size-10 place-items-center rounded-full text-teal transition-colors hover:bg-cream/60 hover:text-terra sm:grid"
-            >
-              <UserRound className="size-[18px]" strokeWidth={1.5} />
-            </button>
-            <button
-              type="button"
-              aria-label={`Panier, ${cartCount} article${cartCount > 1 ? "s" : ""}`}
-              onClick={onOpenCart}
-              className="relative grid size-10 place-items-center rounded-full text-teal transition-colors hover:bg-cream/60 hover:text-terra"
-            >
-              <ShoppingBag className="size-[18px]" strokeWidth={1.5} />
-              {cartCount > 0 && (
-                <span className="absolute right-0.5 top-0.5 grid size-[17px] place-items-center rounded-full bg-terra text-[9px] font-bold text-paper">
-                  {cartCount}
-                </span>
-              )}
-            </button>
-            <button
-              type="button"
-              aria-label={menuOpen ? "Fermer le menu" : "Ouvrir le menu"}
-              aria-expanded={menuOpen}
-              onClick={() => setMenuOpen((open) => !open)}
-              className="grid size-10 place-items-center rounded-full text-teal transition-colors hover:bg-cream/60 lg:hidden"
-            >
-              {menuOpen ? <X className="size-5" strokeWidth={1.5} /> : <Menu className="size-5" strokeWidth={1.5} />}
-            </button>
-          </div>
-        </div>
-
-        <div
-          inert={!menuOpen}
-          className={`overflow-hidden border-t border-border/60 bg-paper transition-[max-height,opacity] duration-500 lg:hidden ${
-            menuOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
-          }`}
-        >
-          <nav className="mx-auto flex max-w-[1600px] flex-col px-5 py-4 sm:px-8" aria-label="Navigation mobile">
-            {LINKS.map((link, index) => (
-              <a
-                key={link.label}
-                href={link.href}
-                onClick={() => setMenuOpen(false)}
-                className="flex items-center justify-between border-b border-border/60 py-4 font-display text-2xl"
-              >
-                <span className="flex items-center gap-4">
-                  <span className="label text-terra">0{index + 1}</span>
-                  {link.label}
-                </span>
-                <ArrowUpRight className="size-4 text-olive" />
-              </a>
-            ))}
-          </nav>
-        </div>
-      </header>
+              <ArrowUpRight className="size-4 text-olive" />
+            </a>
+          ))}
+        </nav>
+      </div>
     </>
   )
 }
