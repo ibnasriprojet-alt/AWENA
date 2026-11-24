@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react"
 import { ArrowUpRight, Menu, Search, ShoppingBag, UserRound, X } from "lucide-react"
 
+import AnimatedNavFramer from "@/components/ui/navigation-menu"
+
 const LINKS = [
   { label: "Collections", href: "#collections" },
   { label: "Essentiels", href: "#essentiels" },
@@ -55,17 +57,11 @@ export default function SiteHeader({ cartCount, onOpenCart, onOpenSearch }: Site
             </span>
           </a>
 
-          <nav className="hidden items-center gap-9 lg:flex" aria-label="Navigation principale">
-            {LINKS.map((link) => (
-              <a
-                key={link.label}
-                href={link.href}
-                className="label relative py-2 text-teal/75 transition-colors hover:text-terra after:absolute after:bottom-0 after:left-0 after:h-px after:w-0 after:bg-terra after:transition-all after:duration-300 hover:after:w-full"
-              >
-                {link.label}
-              </a>
-            ))}
-          </nav>
+          <div className="hidden lg:block">
+            <AnimatedNavFramer
+              items={LINKS.map((link) => ({ name: link.label, href: link.href }))}
+            />
+          </div>
 
           <div className="flex items-center gap-0.5 sm:gap-1">
             <button
