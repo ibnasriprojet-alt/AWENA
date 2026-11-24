@@ -256,6 +256,12 @@ export default function PanoramicSpreadHero() {
           </span>
         </div>
       </div>
+
+      {/* Fondu doux vers la section suivante */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 bottom-0 z-20 h-24 bg-gradient-to-b from-transparent via-[#ECDFCD]/60 to-[#ECDFCD] sm:h-32"
+      />
     </section>
   );
 }
