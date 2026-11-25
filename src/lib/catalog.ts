@@ -138,7 +138,7 @@ export const CATEGORIES = [
   {
     name: "Femme",
     count: "5 pièces",
-    image: "/produits/salouva-azur.jpg",
+    image: "/produits/salouva.jpg",
     alt: "Salouva bleu et or",
     filter: "Femme",
   },
