@@ -200,19 +200,6 @@ export default function PanoramicSpreadHero() {
           <div className="w-[70vw] h-[70vw] max-w-[900px] max-h-[900px] rounded-full bg-[#B69475]/10 blur-[130px]" />
         </div>
 
-        <div className="pointer-events-none absolute left-[5vw] top-1/2 hidden -translate-y-1/2 md:flex md:flex-col md:gap-3 lg:flex">
-          <span className="h-10 w-px bg-[#5A5C3B]/40" />
-          <span className="text-[9px] font-semibold uppercase tracking-[0.28em] text-[#5A5C3B] [writing-mode:vertical-rl]">
-            Collection 01 — 07
-          </span>
-        </div>
-        <div className="pointer-events-none absolute right-[5vw] top-1/2 hidden -translate-y-1/2 md:flex md:flex-col md:items-end md:gap-3">
-          <span className="text-[9px] font-semibold uppercase tracking-[0.28em] text-[#5A5C3B] [writing-mode:vertical-rl]">
-            Automne · Hiver 2026
-          </span>
-          <span className="h-10 w-px bg-[#5A5C3B]/40" />
-        </div>
-
         {/* Scene Container - Reacts to pointer tilt for whole-gallery parallax */}
         <motion.div
           className="absolute inset-0 z-10 flex items-center justify-center"
