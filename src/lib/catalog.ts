@@ -57,18 +57,6 @@ export const PRODUCTS: Product[] = [
     audience: "Femme",
   },
   {
-    id: "kanzu-or",
-    type: "Tunique",
-    name: "Kanzu Or",
-    price: 219,
-    image: "/produits/kanzu-or.jpg",
-    alt: "Tunique blanche aux broderies dorées, vue en pied",
-    badge: "Exclusivité",
-    tone: "#B69475",
-    colors: ["#DDC6AA", "#B69475"],
-    audience: "Homme",
-  },
-  {
     id: "kanzu-portrait",
     type: "Tunique",
     name: "Kanzu Or, portrait",
@@ -159,7 +147,7 @@ export const CATEGORIES = [
   },
   {
     name: "Homme",
-    count: "2 pièces",
+    count: "1 pièce",
     image: "/produits/kanzu-or.jpg",
     alt: "Tunique blanche aux broderies dorées, pièce exclusive",
     filter: "Homme",

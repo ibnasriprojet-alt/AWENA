@@ -157,12 +157,20 @@ export default function App() {
                       className="absolute inset-0 size-full object-cover transition-transform duration-[1.2s] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-110"
                     />
                     <span aria-hidden className="absolute inset-0 bg-gradient-to-t from-teal/85 via-teal/25 to-transparent transition-opacity duration-500 group-hover:opacity-90" />
-                    <span className={`absolute left-4 top-4 px-2 py-1 text-[8px] font-bold uppercase tracking-[0.16em] sm:left-5 sm:top-5 ${
+                    {category.name === "Homme" && (
+                      <span aria-hidden className="pointer-events-none absolute inset-0 z-[1] flex flex-col items-center justify-center gap-3 bg-teal/40 backdrop-blur-[6px] transition-all duration-500 group-hover:bg-teal/20 group-hover:backdrop-blur-[2px]">
+                        <span className="grid size-12 place-items-center rounded-full border border-sand/70 bg-teal/50 text-sand">
+                          <Lock className="size-5" strokeWidth={1.4} />
+                        </span>
+                        <span className="label text-paper/90">Accès privilégié</span>
+                      </span>
+                    )}
+                    <span className={`absolute left-4 top-4 z-10 px-2 py-1 text-[8px] font-bold uppercase tracking-[0.16em] sm:left-5 sm:top-5 ${
                       category.name === "Homme" ? "border border-sand/70 text-sand" : "bg-sand text-teal"
                     }`}>
                       {category.tag}
                     </span>
-                    <span className="absolute right-5 top-5 grid size-9 translate-y-2 place-items-center rounded-full border border-paper/60 text-paper opacity-0 transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100">
+                    <span className="absolute right-5 top-5 z-10 grid size-9 translate-y-2 place-items-center rounded-full border border-paper/60 text-paper opacity-0 transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100">
                       <ArrowUpRight className="size-4" strokeWidth={1.4} />
                     </span>
                     <span className="relative z-10 flex items-end justify-between gap-2">
@@ -239,10 +247,10 @@ export default function App() {
             <div className="grid items-center gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:gap-20">
               <Reveal>
                 <Eyebrow light>03 — Exclusivité Homme</Eyebrow>
-                <SectionTitle light>Deux pièces.<br /><em className="text-sand">Un privilège.</em></SectionTitle>
+                <SectionTitle light>Une pièce.<br /><em className="text-sand">Un privilège.</em></SectionTitle>
                 <p className="mt-8 max-w-[420px] text-sm leading-[1.9] text-paper/70">
                   Le vestiaire masculin d'Awena ne s'expose pas : il se découvre.
-                  Deux kanzus aux broderies dorées, réservés aux initiés.
+                  Un kanzu aux broderies dorées, décliné en Blanc / Or et Rouge.
                 </p>
                 <div className="mt-9 flex flex-wrap items-center gap-4">
                   <span className="inline-flex items-center gap-2 border border-sand/50 px-4 py-3 text-[10px] font-bold uppercase tracking-[0.18em] text-sand">
@@ -253,7 +261,7 @@ export default function App() {
                 </div>
               </Reveal>
 
-              <div className="grid gap-5 sm:grid-cols-2">
+              <div className="grid max-w-[420px] gap-5">
                 {MEN_PRODUCTS.map((product, index) => (
                   <Reveal key={product.id} delay={index * 120} className="bg-paper p-3 sm:p-4">
                     <ProductCard
