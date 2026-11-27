@@ -16,6 +16,7 @@ export type Product = {
   badge?: string
   tone: string
   colors: string[]
+  audience: "Femme" | "Homme"
   variants?: ProductVariant[]
 }
 
@@ -30,6 +31,7 @@ export const PRODUCTS: Product[] = [
     badge: "Nouveau",
     tone: "#B54E30",
     colors: ["#DDC6AA", "#B54E30", "#5A5C3B"],
+    audience: "Femme",
   },
   {
     id: "robe-nuit",
@@ -41,6 +43,7 @@ export const PRODUCTS: Product[] = [
     badge: "Best-seller",
     tone: "#0F3340",
     colors: ["#0F3340", "#B69475"],
+    audience: "Femme",
   },
   {
     id: "duo-ceremonie",
@@ -51,6 +54,7 @@ export const PRODUCTS: Product[] = [
     alt: "Tunique verte et robe rouge de cérémonie",
     tone: "#8A2F1D",
     colors: ["#8A2F1D", "#606D18"],
+    audience: "Femme",
   },
   {
     id: "kanzu-or",
@@ -59,8 +63,10 @@ export const PRODUCTS: Product[] = [
     price: 219,
     image: "/produits/kanzu-or.jpg",
     alt: "Tunique blanche aux broderies dorées, vue en pied",
+    badge: "Exclusivité",
     tone: "#B69475",
     colors: ["#DDC6AA", "#B69475"],
+    audience: "Homme",
   },
   {
     id: "kanzu-portrait",
@@ -69,9 +75,10 @@ export const PRODUCTS: Product[] = [
     price: 219,
     image: "/produits/kanzu-or-portrait.jpg",
     alt: "Portrait de la tunique blanche brodée d'or",
-    badge: "Nouveau",
+    badge: "Exclusivité",
     tone: "#B69475",
     colors: ["#DDC6AA", "#B69475"],
+    audience: "Homme",
     variants: [
       {
         id: "blanc-or",
@@ -98,6 +105,7 @@ export const PRODUCTS: Product[] = [
     alt: "Salouva bleu, or et crème",
     tone: "#0F3340",
     colors: ["#0F3340", "#B69475", "#DDC6AA"],
+    audience: "Femme",
   },
   {
     id: "robe-terracotta",
@@ -109,6 +117,7 @@ export const PRODUCTS: Product[] = [
     badge: "Édition limitée",
     tone: "#B54E30",
     colors: ["#B54E30", "#606D18"],
+    audience: "Femme",
   },
   {
     id: "ensemble-ardoise",
@@ -120,6 +129,7 @@ export const PRODUCTS: Product[] = [
     badge: "Nouveau",
     tone: "#7F8188",
     colors: ["#9EA9BD", "#4B494B", "#BFC1C9"],
+    audience: "Femme",
   },
   {
     id: "robe-violette",
@@ -131,8 +141,12 @@ export const PRODUCTS: Product[] = [
     badge: "Édition limitée",
     tone: "#6B4E5D",
     colors: ["#6B4E5D", "#331B4B", "#BDB9B3"],
+    audience: "Femme",
   },
 ]
+
+export const WOMEN_PRODUCTS = PRODUCTS.filter((product) => product.audience === "Femme")
+export const MEN_PRODUCTS = PRODUCTS.filter((product) => product.audience === "Homme")
 
 export const CATEGORIES = [
   {
@@ -141,13 +155,15 @@ export const CATEGORIES = [
     image: "/produits/salouva.jpg",
     alt: "Salouva bleu et or",
     filter: "Femme",
+    tag: "En vedette",
   },
   {
     name: "Homme",
     count: "2 pièces",
     image: "/produits/kanzu-or.jpg",
-    alt: "Tunique blanche aux broderies dorées",
+    alt: "Tunique blanche aux broderies dorées, pièce exclusive",
     filter: "Homme",
+    tag: "Exclusivité",
   },
   {
     name: "Cérémonie",
@@ -155,6 +171,7 @@ export const CATEGORIES = [
     image: "/produits/duo-ceremonie.jpg",
     alt: "Tenues de cérémonie rouge et verte",
     filter: "Cérémonie",
+    tag: "Femme",
   },
   {
     name: "Broderies",
@@ -162,10 +179,11 @@ export const CATEGORIES = [
     image: "/produits/robe-bleue.jpg",
     alt: "Robe bleue brodée",
     filter: "Broderies",
+    tag: "Femme",
   },
 ] as const
 
-export const FILTERS = ["Tout", "Robe", "Tunique", "Ensemble"] as const
+export const FILTERS = ["Tout", "Robe", "Ensemble"] as const
 export type Filter = (typeof FILTERS)[number]
 
 export const JOURNAL = [

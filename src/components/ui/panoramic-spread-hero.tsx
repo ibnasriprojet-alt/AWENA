@@ -11,13 +11,13 @@ import {
 } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 
-// Fresh, guaranteed working high-quality Unsplash images (Architecture & Minimalist theme)
+// Portraits féminins de la collection — le hero met uniquement les pièces Femme en avant.
 const IMAGES = [
   { src: "/produits/robe-eventail.jpg", alt: "Robe jaune et blanc avec éventail fleuri" },
   { src: "/produits/robe-bleue.jpg", alt: "Robe bleue brodée" },
-  { src: "/produits/duo-ceremonie.jpg", alt: "Tenues de cérémonie rouge et verte" },
-  { src: "/produits/kanzu-or.jpg", alt: "Tunique blanche aux broderies dorées" },
-  { src: "/produits/kanzu-or-portrait.jpg", alt: "Portrait de la tunique blanche brodée d'or" },
+  { src: "/produits/ensemble-ardoise.jpg", alt: "Silhouette féminine en gris-bleu" },
+  { src: "/produits/salouva.jpg", alt: "Salouva portée en lumière" },
+  { src: "/produits/robe-violette.jpg", alt: "Silhouette violette en pied" },
   { src: "/produits/salouva-azur.jpg", alt: "Salouva bleu et or" },
   { src: "/produits/robe-terracotta.jpg", alt: "Robe terracotta et vert" },
 ];

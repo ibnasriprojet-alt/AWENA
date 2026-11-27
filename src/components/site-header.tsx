@@ -6,6 +6,7 @@ import AnimatedNavFramer from "@/components/ui/navigation-menu"
 const LINKS = [
   { label: "Collections", href: "#collections" },
   { label: "Essentiels", href: "#essentiels" },
+  { label: "Exclusivité", href: "#exclusivite-homme" },
   { label: "Histoire", href: "#histoire" },
 ]
 

@@ -5,6 +5,7 @@ import {
   ArrowUpRight,
   Check,
   Instagram,
+  Lock,
 } from "lucide-react"
 
 import CartDrawer, { type CartLine } from "@/components/cart-drawer"
@@ -16,14 +17,14 @@ import PanoramicSpreadHero from "@/components/ui/panoramic-spread-hero"
 import {
   CATEGORIES,
   FILTERS,
-  PRODUCTS,
+  MEN_PRODUCTS,
+  WOMEN_PRODUCTS,
   type Filter,
   type Product,
 } from "@/lib/catalog"
 
 const CATEGORY_FILTER: Record<string, Filter> = {
   Femme: "Robe",
-  Homme: "Tunique",
   Cérémonie: "Ensemble",
   Broderies: "Robe",
 }
@@ -57,7 +58,7 @@ export default function App() {
 
   const cartCount = cart.reduce((sum, line) => sum + line.qty, 0)
   const visibleProducts = useMemo(
-    () => (filter === "Tout" ? PRODUCTS : PRODUCTS.filter((product) => product.type === filter)),
+    () => (filter === "Tout" ? WOMEN_PRODUCTS : WOMEN_PRODUCTS.filter((product) => product.type === filter)),
     [filter],
   )
 
@@ -109,8 +110,9 @@ export default function App() {
   }
 
   const selectCategory = (name: string) => {
-    setFilter(CATEGORY_FILTER[name] ?? "Tout")
-    document.getElementById("essentiels")?.scrollIntoView({ behavior: "smooth" })
+    const targetId = name === "Homme" ? "exclusivite-homme" : "essentiels"
+    if (name !== "Homme") setFilter(CATEGORY_FILTER[name] ?? "Tout")
+    document.getElementById(targetId)?.scrollIntoView({ behavior: "smooth" })
   }
 
   return (
@@ -155,6 +157,11 @@ export default function App() {
                       className="absolute inset-0 size-full object-cover transition-transform duration-[1.2s] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-110"
                     />
                     <span aria-hidden className="absolute inset-0 bg-gradient-to-t from-teal/85 via-teal/25 to-transparent transition-opacity duration-500 group-hover:opacity-90" />
+                    <span className={`absolute left-4 top-4 px-2 py-1 text-[8px] font-bold uppercase tracking-[0.16em] sm:left-5 sm:top-5 ${
+                      category.name === "Homme" ? "border border-sand/70 text-sand" : "bg-sand text-teal"
+                    }`}>
+                      {category.tag}
+                    </span>
                     <span className="absolute right-5 top-5 grid size-9 translate-y-2 place-items-center rounded-full border border-paper/60 text-paper opacity-0 transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100">
                       <ArrowUpRight className="size-4" strokeWidth={1.4} />
                     </span>
@@ -177,8 +184,8 @@ export default function App() {
           <div className="mx-auto max-w-[1600px]">
             <Reveal className="mb-10 flex flex-wrap items-end justify-between gap-8">
               <div>
-                <Eyebrow>02 — Sélection</Eyebrow>
-                <SectionTitle>Les essentiels<br /><em className="text-terra">du moment.</em></SectionTitle>
+                <Eyebrow>02 — Le vestiaire féminin</Eyebrow>
+                <SectionTitle>Les silhouettes<br /><em className="text-terra">du moment.</em></SectionTitle>
               </div>
               <div className="no-scrollbar flex max-w-full gap-2 overflow-x-auto pb-1" role="group" aria-label="Filtrer les pièces">
                 {FILTERS.map((item) => (
@@ -225,11 +232,48 @@ export default function App() {
           </div>
         </section>
 
+        {/* Exclusivité Homme — pièces présentées uniquement ici */}
+        <section id="exclusivite-homme" className="grain relative overflow-hidden bg-teal px-5 py-24 text-paper sm:px-8 sm:py-32">
+          <div aria-hidden className="pointer-events-none absolute -left-32 top-1/4 size-[420px] rounded-full bg-terra/20 blur-[140px]" />
+          <div className="relative z-10 mx-auto max-w-[1600px]">
+            <div className="grid items-center gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:gap-20">
+              <Reveal>
+                <Eyebrow light>03 — Exclusivité Homme</Eyebrow>
+                <SectionTitle light>Deux pièces.<br /><em className="text-sand">Un privilège.</em></SectionTitle>
+                <p className="mt-8 max-w-[420px] text-sm leading-[1.9] text-paper/70">
+                  Le vestiaire masculin d'Awena ne s'expose pas : il se découvre.
+                  Deux kanzus aux broderies dorées, réservés aux initiés.
+                </p>
+                <div className="mt-9 flex flex-wrap items-center gap-4">
+                  <span className="inline-flex items-center gap-2 border border-sand/50 px-4 py-3 text-[10px] font-bold uppercase tracking-[0.18em] text-sand">
+                    <Lock className="size-3.5" strokeWidth={1.5} />
+                    Accès privilégié
+                  </span>
+                  <span className="label text-paper/45">Édition confidentielle</span>
+                </div>
+              </Reveal>
+
+              <div className="grid gap-5 sm:grid-cols-2">
+                {MEN_PRODUCTS.map((product, index) => (
+                  <Reveal key={product.id} delay={index * 120} className="bg-paper p-3 sm:p-4">
+                    <ProductCard
+                      product={product}
+                      onAdd={addToCart}
+                      favorite={favorites.includes(product.id)}
+                      onToggleFavorite={toggleFavorite}
+                    />
+                  </Reveal>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* Manifeste */}
         <section id="histoire" className="grain relative overflow-hidden bg-rust text-paper">
           <div className="mx-auto grid max-w-[1600px] items-center lg:grid-cols-2">
             <div className="relative z-10 px-6 py-24 sm:px-10 lg:py-32 xl:px-20">
-              <Eyebrow light>03 — Notre engagement</Eyebrow>
+              <Eyebrow light>04 — Notre engagement</Eyebrow>
               <SectionTitle light>
                 Moins de pièces.<br /><em className="text-sand">Plus de sens.</em>
               </SectionTitle>
@@ -264,7 +308,7 @@ export default function App() {
         <section className="grain relative overflow-hidden bg-teal px-5 py-24 text-paper sm:px-8 sm:py-28">
           <div className="relative z-10 mx-auto grid max-w-[1600px] items-center gap-12 lg:grid-cols-[1fr_1fr]">
             <Reveal>
-              <Eyebrow light>04 — La lettre</Eyebrow>
+              <Eyebrow light>05 — La lettre</Eyebrow>
               <SectionTitle light>Un mot,<br /><em className="text-sand">une saison.</em></SectionTitle>
             </Reveal>
             <Reveal delay={120}>

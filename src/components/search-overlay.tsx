@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react"
-import { ArrowUpRight, Plus, Search, X } from "lucide-react"
-import { formatPrice, PRODUCTS, type Product } from "@/lib/catalog"
+import { ArrowUpRight, Lock, Plus, Search, X } from "lucide-react"
+import { formatPrice, MEN_PRODUCTS, WOMEN_PRODUCTS, type Product } from "@/lib/catalog"
 
 type SearchOverlayProps = {
   open: boolean
@@ -8,7 +8,7 @@ type SearchOverlayProps = {
   onAdd: (product: Product) => void
 }
 
-const SUGGESTIONS = ["Robe", "Kanzu", "Cérémonie", "Broderies"]
+const SUGGESTIONS = ["Robe", "Ensemble", "Cérémonie", "Broderies"]
 
 export default function SearchOverlay({ open, onClose, onAdd }: SearchOverlayProps) {
   const [query, setQuery] = useState("")
@@ -33,9 +33,17 @@ export default function SearchOverlay({ open, onClose, onAdd }: SearchOverlayPro
 
   const results = useMemo(() => {
     const term = query.trim().toLowerCase()
-    if (!term) return PRODUCTS.slice(0, 3)
-    return PRODUCTS.filter((product) =>
+    if (!term) return WOMEN_PRODUCTS.slice(0, 3)
+    return WOMEN_PRODUCTS.filter((product) =>
       `${product.name} ${product.type} ${product.alt} ${product.badge ?? ""}`.toLowerCase().includes(term),
+    )
+  }, [query])
+
+  const exclusiveResults = useMemo(() => {
+    const term = query.trim().toLowerCase()
+    if (!term) return []
+    return MEN_PRODUCTS.filter((product) =>
+      `${product.name} ${product.type} ${product.alt}`.toLowerCase().includes(term),
     )
   }, [query])
 
@@ -126,6 +134,22 @@ export default function SearchOverlay({ open, onClose, onAdd }: SearchOverlayPro
               </div>
             )}
           </div>
+
+          {exclusiveResults.length > 0 && (
+            <a
+              href="#exclusivite-homme"
+              onClick={onClose}
+              className="mt-6 flex flex-wrap items-center gap-3 border border-terra/25 bg-terra/5 p-4 transition-colors hover:border-terra/60"
+            >
+              <Lock className="size-4 shrink-0 text-terra" strokeWidth={1.5} />
+              <span className="flex-1 text-sm text-teal">
+                {exclusiveResults.length === 1 ? "Cette pièce Homme" : "Ces pièces Homme"} se découvrent en exclusivité.
+              </span>
+              <span className="label inline-flex items-center gap-1 text-terra">
+                Voir l'exclusivité <ArrowUpRight className="size-3.5" />
+              </span>
+            </a>
+          )}
 
           <a href="#essentiels" onClick={onClose} className="mt-8 inline-flex items-center gap-2 label text-terra link-underline">
             Voir toute la sélection <ArrowUpRight className="size-3.5" />

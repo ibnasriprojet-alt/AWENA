@@ -14,6 +14,7 @@ export type NavItem = {
 const DEFAULT_ITEMS: NavItem[] = [
   { name: "Collections", href: "#collections" },
   { name: "Essentiels", href: "#essentiels" },
+  { name: "Exclusivité", href: "#exclusivite-homme" },
   { name: "Histoire", href: "#histoire" },
 ]
 
