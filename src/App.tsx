@@ -158,7 +158,7 @@ export default function App() {
                     />
                     <span aria-hidden className="absolute inset-0 bg-gradient-to-t from-teal/85 via-teal/25 to-transparent transition-opacity duration-500 group-hover:opacity-90" />
                     {category.name === "Homme" && (
-                      <span aria-hidden className="pointer-events-none absolute inset-0 z-[1] flex flex-col items-center justify-center gap-3 bg-teal/40 backdrop-blur-[6px] transition-all duration-500 group-hover:bg-teal/20 group-hover:backdrop-blur-[2px]">
+                      <span aria-hidden className="pointer-events-none absolute inset-0 z-[1] flex flex-col items-center justify-center gap-3 bg-teal/50 backdrop-blur-[12px] transition-all duration-500 group-hover:bg-teal/60 group-hover:backdrop-blur-[14px]">
                         <span className="grid size-12 place-items-center rounded-full border border-sand/70 bg-teal/50 text-sand">
                           <Lock className="size-5" strokeWidth={1.4} />
                         </span>
