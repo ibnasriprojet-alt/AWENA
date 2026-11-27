@@ -353,7 +353,7 @@ export default function App() {
       {/* Footer */}
       <footer className="bg-[#0B2A34] text-paper">
         <div className="mx-auto max-w-[1600px] px-5 pb-10 pt-20 sm:px-8">
-          <div className="grid gap-12 pb-16 sm:grid-cols-2 lg:grid-cols-[1.4fr_repeat(3,1fr)]">
+          <div className="grid gap-12 pb-16 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr]">
             <div>
               <a href="#accueil" className="font-display text-xl font-semibold tracking-[0.22em]">
                 AW<span className="text-sand">ENA</span>
@@ -370,15 +370,14 @@ export default function App() {
             </div>
             {[
               { title: "Boutique", links: ["Femme", "Homme", "Cérémonie", "Broderies"] },
-              { title: "Aide", links: ["Livraison & retours", "Guide des tailles", "Contact", "FAQ"] },
-              { title: "Maison", links: ["Notre histoire", "Savoir-faire", "Engagements"] },
+              { title: "Aide", links: ["Contact"] },
             ].map((column) => (
               <div key={column.title} className="flex flex-col gap-3">
                 <h4 className="label mb-2 text-sand">{column.title}</h4>
                 {column.links.map((link) => (
                   <a
                     key={link}
-                    href={link === "Notre histoire" || link === "Engagements" ? "#histoire" : "#essentiels"}
+                    href={link === "Homme" ? "#exclusivite-homme" : "#essentiels"}
                     className="text-[13px] text-paper/70 transition-colors hover:text-paper"
                   >
                     {link}
@@ -389,7 +388,7 @@ export default function App() {
           </div>
 
           <div className="flex flex-wrap items-center justify-between gap-4 border-t border-paper/15 pt-7 text-[10px] uppercase tracking-[0.1em] text-paper/50">
-            <span>© 2026 Awena — Maquette de démonstration</span>
+            <span>© 2026 Awena</span>
             <div className="flex items-center gap-6">
               <span>France · EUR €</span>
               <button
