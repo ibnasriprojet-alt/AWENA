@@ -125,7 +125,7 @@ export default function App() {
 
       <main>
         {/* HERO — galerie panoramique au défilement */}
-        <section id="accueil" aria-label="Collection automne hiver 2026" className="panoramic-hero">
+        <section id="accueil" aria-label="Collection Awena" className="panoramic-hero">
           <PanoramicSpreadHero />
         </section>
 

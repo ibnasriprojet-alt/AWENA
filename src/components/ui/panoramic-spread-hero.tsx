@@ -221,11 +221,6 @@ export default function PanoramicSpreadHero() {
           className="pointer-events-none absolute z-[5] flex flex-col items-center text-center px-6"
           style={{ y: textY, scale: textScale, opacity: textOpacity }}
         >
-          <span className="mb-5 flex items-center gap-3 text-[10px] md:text-[0.75vw] uppercase tracking-[0.4em] font-semibold text-[#5A5C3B]">
-            <span className="h-px w-7 bg-[#B54E30]" />
-            Collection Automne · Hiver 2026
-            <span className="h-px w-7 bg-[#B54E30]" />
-          </span>
           <h2 className="font-display text-6xl leading-[0.92] tracking-tight sm:text-7xl md:text-[6vw]">
             Le beau <em className="font-normal text-[#B54E30]">dure.</em>
           </h2>
