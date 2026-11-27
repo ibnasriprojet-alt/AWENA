@@ -269,6 +269,7 @@ export default function App() {
                       onAdd={addToCart}
                       favorite={favorites.includes(product.id)}
                       onToggleFavorite={toggleFavorite}
+                      locked
                     />
                   </Reveal>
                 ))}
